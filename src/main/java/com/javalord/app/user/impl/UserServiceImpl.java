@@ -61,15 +61,30 @@ public class UserServiceImpl implements UserService {
         if (!user.isEnabled()) {
             throw new BusinessException(ErrorCode.ACCOUNT_ALREADY_DEACTIVATED);
         }
+
+        user.setEnabled(false);
+        this.userRepository.save(user);
     }
 
     @Override
     public void reactivateAccount(String userId) {
+        final User user = this.userRepository
+                .findById(userId)
+                .orElseThrow(() ->  new BusinessException(ErrorCode.USER_NOT_FOUND, userId));
 
+        if (user.isEnabled()) {
+            throw new BusinessException(ErrorCode.ACCOUNT_ALREADY_DEACTIVATED);
+        }
+
+        user.setEnabled(true);
+        this.userRepository.save(user);
     }
 
     @Override
     public void deleteAccount(String userId) {
+        // this method need the rest of the entities
+        // the logic is just to schedule a profile for deletion
+        // and the
 
     }
 
