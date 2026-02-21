@@ -20,6 +20,10 @@ public enum ErrorCode {
 
     PASSWORDS_MISMATCH("PASSWORDS_MISMATCH", "Passwords do not match", HttpStatus.BAD_REQUEST),
 
+    ERR_USER_DISABLED("ERR_USER_DISABLED", "User has been disabled", HttpStatus.BAD_REQUEST),
+
+    BAD_CREDENTIAL("BAD_CREDENTIAL", "Bad credential", HttpStatus.BAD_REQUEST),
+
     ;
 
     private final String code;
