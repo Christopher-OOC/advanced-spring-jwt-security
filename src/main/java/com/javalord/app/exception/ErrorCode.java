@@ -24,6 +24,8 @@ public enum ErrorCode {
 
     BAD_CREDENTIAL("BAD_CREDENTIAL", "Bad credential", HttpStatus.BAD_REQUEST),
 
+    INTERNAL_EXCEPTION("INTERNAL_EXCEPTION", "Internal exception", HttpStatus.INTERNAL_SERVER_ERROR),
+
     ;
 
     private final String code;

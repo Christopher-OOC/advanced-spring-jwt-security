@@ -8,8 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @RestControllerAdvice
@@ -64,6 +69,43 @@ public class ApplicationExceptionHandler {
                 .build();
 
         return ResponseEntity.status(ErrorCode.USER_NOT_FOUND.getStatus())
+                .body(response);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex) {
+        final List<ErrorResponse.ValidationError> errors = new ArrayList<>();
+        ex.getBindingResult().getAllErrors().forEach(
+                (error) -> {
+                    final String fieldName = ((FieldError) error).getField();
+                    final String errorCode = ((FieldError) error).getDefaultMessage();
+                    errors.add(ErrorResponse.ValidationError.builder()
+                                    .field(fieldName)
+                                    .code(errorCode)
+                                    .message(errorCode)
+                            .build()
+                    );
+                }
+        );
+
+        final ErrorResponse errorResponse = ErrorResponse
+                .builder()
+                .validationErrors(errors)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(errorResponse);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleException(Exception ex) {
+        log.info("General exception: {}", ex.getMessage());
+        final ErrorResponse response = ErrorResponse.builder()
+                .message(ErrorCode.INTERNAL_EXCEPTION.getDefaultMessage())
+                .code(ErrorCode.INTERNAL_EXCEPTION.getCode())
+                .build();
+
+        return ResponseEntity.status(ErrorCode.INTERNAL_EXCEPTION.getStatus())
                 .body(response);
     }
 }
