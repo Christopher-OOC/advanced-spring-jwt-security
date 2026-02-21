@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -47,10 +48,22 @@ public class ApplicationExceptionHandler {
         log.info("Bad credentials exception: {}", ex.getMessage());
         final ErrorResponse response = ErrorResponse.builder()
                 .message(ErrorCode.BAD_CREDENTIAL.getDefaultMessage())
-                .code(ErrorCode.ERR_USER_DISABLED.getCode())
+                .code(ErrorCode.BAD_CREDENTIAL.getCode())
                 .build();
 
         return ResponseEntity.status(ErrorCode.ERR_USER_DISABLED.getStatus())
+                .body(response);
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public  ResponseEntity<ErrorResponse> handleUsernameNotFoundException(UsernameNotFoundException ex) {
+        log.info("Username not found exception: {}", ex.getMessage());
+        final ErrorResponse response = ErrorResponse.builder()
+                .message(ErrorCode.USER_NOT_FOUND.getDefaultMessage())
+                .code(ErrorCode.USER_NOT_FOUND.getCode())
+                .build();
+
+        return ResponseEntity.status(ErrorCode.USER_NOT_FOUND.getStatus())
                 .body(response);
     }
 }
