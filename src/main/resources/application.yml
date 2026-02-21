@@ -2,7 +2,7 @@ spring:
   application:
     name: spring-security-bouali
   datasource:
-    url: jdbc:postgres://localhost:5432/spring_security
+    url: jdbc:postgresql://localhost:5432/spring_security
     username: postgres
     password: chris
   jpa:
@@ -13,6 +13,9 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        format-sql: true
+        format_sql: true
 app:
   security:
+    jwt:
+      access-token-expiration: 86400000
+      refresh-token-expiration: 604099898

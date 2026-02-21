@@ -15,6 +15,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.NumberUtils;
+import org.springframework.web.util.ServletRequestPathUtils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -83,7 +85,7 @@ public class User implements UserDetails {
     private String createdBy;
 
     @LastModifiedBy
-    @Column(name = "LAST_MODIFIED_BY")
+    @Column(name = "LAST_MODIFIED_BY", insertable = false)
     private String lastModifiedBy;
 
     @ManyToMany(

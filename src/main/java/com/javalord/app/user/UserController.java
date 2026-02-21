@@ -35,6 +35,28 @@ public class UserController {
         this.userService.changePassword(request, getUserId(principal));
     }
 
+    @PatchMapping(value = "/me/deactivate")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void deactivateAccount(
+            final Authentication principal
+    ) {
+        this.userService.deactivateAccount(getUserId(principal));
+    }
+
+    @PatchMapping(value = "/me/reactivate")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void reactivateAccount(
+            final Authentication principal
+    ) {
+        this.userService.reactivateAccount(getUserId(principal));
+    }
+
+    @DeleteMapping(value = "/me")
+    @ResponseStatus(code = HttpStatus.NO_CONTENT)
+    public void deleteAccount(final Authentication principal) {
+        this.userService.deleteAccount(getUserId(principal));
+    }
+
     private String getUserId(final Authentication principal) {
         return ((User)principal.getPrincipal()).getId();
     }

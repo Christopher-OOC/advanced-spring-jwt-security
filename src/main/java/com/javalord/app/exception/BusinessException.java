@@ -1,6 +1,5 @@
 package com.javalord.app.exception;
 
-import lombok.Data;
 import lombok.Getter;
 
 @Getter
@@ -17,7 +16,7 @@ public class BusinessException extends RuntimeException {
 
     private static String getFormatterMessage(ErrorCode errorCode, Object[] args) {
         if (args != null && args.length > 0) {
-            String.format(errorCode.getDefaultMessage(), args);
+            return String.format(errorCode.getDefaultMessage(), args);
         }
 
         return errorCode.getDefaultMessage();

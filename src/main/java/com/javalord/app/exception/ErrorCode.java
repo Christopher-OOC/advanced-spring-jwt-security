@@ -14,6 +14,12 @@ public enum ErrorCode {
 
     ACCOUNT_ALREADY_DEACTIVATED("ACCOUNT_ALREADY_DEACTIVATED", "Account has been deactivated", HttpStatus.BAD_REQUEST),
 
+    EMAIL_ALREADY_EXISTS("EMAIL_ALREADY_EXISTS", "Email already exists", HttpStatus.BAD_REQUEST),
+
+    PHONE_ALREADY_EXISTS("PHONE_ALREADY_EXISTS", "Phone already exists", HttpStatus.BAD_REQUEST),
+
+    PASSWORDS_MISMATCH("PASSWORDS_MISMATCH", "Passwords do not match", HttpStatus.BAD_REQUEST),
+
     ;
 
     private final String code;

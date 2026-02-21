@@ -1,6 +1,7 @@
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
+**/src/main/resources/keys/local-only
 !**/src/main/**/target/
 !**/src/test/**/target/
 
